@@ -1,4 +1,4 @@
-package org.canvass.example.data.controller;
+package org.canvass.app.canvassapp.controller;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,8 +11,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validator;
 
-import org.canvass.example.data.model.Data;
-import org.canvass.example.data.services.DataService;
+import org.canvass.app.canvassapp.model.User;
+import org.canvass.app.canvassapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
@@ -27,25 +27,25 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @Controller
-@RequestMapping(value="/orderui")
-public class DataUIController {
+@RequestMapping(value="/userui")
+public class UserUIController {
 	
 	@Autowired
-	private DataService dataService;
+	private UserService userService;
 	
 	private Validator validator;
 	
 	@Autowired
-	public DataUIController(Validator validator) {
+	public UserUIController(Validator validator) {
 		this.validator = validator;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getOrdersPage(Model model) {
-		model.addAttribute("data", new Data());
-		model.addAttribute("data", dataService.listOrders());
 		
-		return "orders";
+		model.addAttribute("users", userService.listUsers());
+		
+		return "list";
 	}
 		
 }

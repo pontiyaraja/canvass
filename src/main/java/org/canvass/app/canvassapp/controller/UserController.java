@@ -1,4 +1,4 @@
-package org.canvass.example.data.controller;
+package org.canvass.app.canvassapp.controller;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,14 +11,13 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validator;
 
-import org.canvass.example.data.model.Data;
-import org.canvass.example.data.services.DataService;
+import org.canvass.app.canvassapp.model.User;
+import org.canvass.app.canvassapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,38 +27,37 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @Controller
-@RequestMapping(value="/data")
-public class DataController {
+@RequestMapping(value="/user")
+public class UserController {
 	
 	@Autowired
-	private DataService dataService;
+	private UserService userService;
 	
 	private Validator validator;
 	
 	@Autowired
-	public DataController(Validator validator) {
+	public UserController(Validator validator) {
 		this.validator = validator;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public @ResponseBody String create(@ModelAttribute Data data) {
-		dataService.addOrder(data);
+	public @ResponseBody String create(@Valid @RequestBody User order) {
+		userService.addUser(order);
 		return "Success";
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody List<Data> getOrders() {
-		return dataService.listOrders();
+	public @ResponseBody List<User> getOrders() {
+		return userService.listUsers();
 	}
 
-	
-	
-	// internal helper
-	private Map<String, String> validationMessages(Set<ConstraintViolation<Data>> failureSet) {
-		Map<String, String> failureMessageMap = new HashMap<String, String>();
-		for (ConstraintViolation<Data> failure : failureSet) {
-			failureMessageMap.put(failure.getPropertyPath().toString(), failure.getMessage());
+	@RequestMapping(value="{email}", method=RequestMethod.GET)
+	public @ResponseBody List<User> getOrder(@PathVariable String email) {
+		List<User> user = userService.findUser(email);
+		if (user == null) {
+			throw new ResourceNotFoundException(email);
 		}
-		return failureMessageMap;
-	}
+		return user;
+	}	
+	
 }

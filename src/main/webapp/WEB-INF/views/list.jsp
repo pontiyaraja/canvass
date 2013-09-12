@@ -15,33 +15,17 @@
 		<script type="text/javascript" src="<c:url value="/resources/json.min.js" /> "></script>
 	</head>
 	<body>
-		<div class="container">			
+		<div class="container">
+			<h2>
+				User List
+			</h2>			
 			<table>
-				<tr><th>No</th><th>Email</th><th>Phone</th></tr>
-			    <c:forEach items="${orders}" var="data">
-			    	<tr><td><c:out value="${data.userName}"/></td><td><c:out value="${data.email}"/></td><td><c:out value="${data.phone}"/></td></tr>
+				<tr><th>No</th><th>User Name</th><th>Email</th><th>Phone</th></tr>
+			    <c:forEach items="${users}" var="user">
+			    	<tr><td><c:out value="${user.userId}"/></td><td><c:out value="${user.name}"/></td><td><c:out value="${user.email}"/></td><td><c:out value="${user.phone}"/></td></tr>
 			    </c:forEach>			
 			</table>
+			<a href="/"><input id="back" type="button" value="back"/></a>
 		</div>
-	</body>
-
-	<script type="text/javascript">	
-		$(document).ready(function() {
-			$("#order").submit(function() {
-				var order = $(this).serializeObject();
-				$.postJSON("order", [order], function(data) {
-					$.getJSON("order/" + data[0].order_number, function(order) {
-						alert("Created order "+data[0].order_number+
-								"\nID = "+order.id);
-						window.location.reload(true);
-					});			
-				}, function(data) {
-					var response = JSON.parse(data.response);
-					alert("Error: "+response[0].id);
-				});
-				return false;				
-			});
-		});
-	</script>
-	
+	</body>	
 </html>
