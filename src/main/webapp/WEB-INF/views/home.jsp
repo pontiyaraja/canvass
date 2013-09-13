@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>Orders</title>
+<title>Canvass</title>
 <link rel="stylesheet"
 	href="<c:url value="/resources/blueprint/screen.css" />"
 	type="text/css" media="screen, projection">
@@ -16,16 +16,21 @@
 			<link rel="stylesheet" href="<c:url value="/resources/blueprint/ie.css" />" type="text/css" media="screen, projection">
 		<![endif]-->
 <script type="text/javascript"
-	src="<c:url value="/resources/jquery-1.4.min.js" /> "></script>
+	src="<c:url value="/resources/jquery-1.8.3.min.js" /> "></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/json.min.js" /> "></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/jquery.validate.js" /> "></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/jquery.validate.min.js" /> "></script>
 </head>
 <body>
 	<div class="container">
 		<h2>Create User</h2>
 		<div class="span-12 last">
 
-			<form:form id="userform" modelAttribute="user" action="user" method="post">
+			<form:form id="userform" modelAttribute="user" action="user"
+				method="post">
 				<fieldset>
 					<legend>User Fields</legend>
 					<p>
@@ -50,7 +55,8 @@
 						<form:errors path="phone" />
 					</p>
 					<p>
-						<input id="create" type="submit" value="Create" />
+						<input id="create" type="submit" value="Create"
+							onclick="submitForm();"/>
 					</p>
 				</fieldset>
 			</form:form>
@@ -60,67 +66,91 @@
 </body>
 
 <script type="text/javascript">
+
+        function submitForm(){ 
+          var validator = $("
+							#myForm").validate({ 
+          rules: { 
+               name: "required", 
+               email: "required", 
+               contactnumber: "required", 
+               city: "required", 
+               desc: "required"	
+              }, 
+         errorElement: "span" , 
+         messages: { 
+                name: " Enter
+							Name", 
+                email: " Enter
+							Email", 
+                contactnumber: " Enter Contact
+							No"} }); 
+        /*if(validator.form()){ 
+// validation
+							perform 
+$('form#myForm').attr({action: 'mycontroller'});	
+$('form#myForm').submit(); } */
+} 
     
 	$(document).ready(function() {
 		
 		
-		$('#userform').validate({
-	        rules: {
-	        	emailLabel: {
-	               required: true
-	           }
-		       phoneLabel: {
-		    	   required: true
-		       }
-	        },
-	        messages: {
-	        	emailLabel: "Please enter a valid email."
-	        	phoneLabel: "Please enter a valid phone no"
-	        }
-	    });
-		
-		$("#user").submit(function() {
-			var user = $(this).serializeObject();
-			$.post("home", [ user ], function(data) {
-				alert("Created user ");
+		$("#userform").submit(function() {
+			var
+							user=$(this).serializeObject();
+							$.post("user/", [ user ], function(data) {
+				alert("Created
+							user ");
 				window.location.reload(true);
 			}, function(data) {
-				var response = data.response;
-				alert("Error: ");
+				var
+							response=data.response; alert("Error: ");
 			});
-			return false;
+			return
+							false;
 		});	
 		
 		$("#emailLabel").blur(function() {
-			var sEmail = $('#emailLabel').val();
-			if ($.trim(sEmail).length == 0) {
-			   alert('Please enter valid email address');
+			var
+							sEmail=$( '#emailLabel').val();
+			if ($.trim(sEmail).length==
+							0) {
+			   alert('Please enter valid email
+							address');
 			   e.preventDefault();
 			}
 			if (validateEmail(sEmail)) {
-			   alert('Email is valid');
+			   alert('Email
+							is valid');
 			}
 			else {
-			         alert('Invalid Email Address');
+			         alert('Invalid Email
+							Address');
 			         e.preventDefault();
 			     }
 			});			
 $("#phoneLabel").blur(function() {
-	var sPhone = $('#phoneLabel').val();
-	if ($.trim(sPhone).length == 0) {
-	   alert('Please enter valid phone number');
+	var
+							sPhone=$( '#phoneLabel').val();
+	if ($.trim(sPhone).length==
+							0) {
+	   alert('Please enter valid phone
+							number');
 	   e.preventDefault();
 	}
 	if (validatePhone(sPhone)) {
-	   alert('Phone no is valid');
+	   alert('Phone
+							no is valid');
 	}
 	else {
-	         alert('Invalid Phone no');
+	         alert('Invalid Phone
+							no');
 	         e.preventDefault();
 	     }
 	});
 	
-var email = $('#emailLabel').val();
+var email=$(
+							'#emailLabel').val();
 $('#emailLabel').change(function() {
    $.ajax({
       url: "order",
