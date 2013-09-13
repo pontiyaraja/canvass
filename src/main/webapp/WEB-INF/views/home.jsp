@@ -68,23 +68,17 @@
 <script type="text/javascript">
 
         function submitForm(){ 
-          var validator = $("
-							#myForm").validate({ 
+          var validator = $("#user").validate({ 
           rules: { 
-               name: "required", 
-               email: "required", 
-               contactnumber: "required", 
-               city: "required", 
-               desc: "required"	
+               nameLabel: "required", 
+               emailLabel: "required", 
+               phoneLabel: "required"
               }, 
          errorElement: "span" , 
          messages: { 
-                name: " Enter
-							Name", 
-                email: " Enter
-							Email", 
-                contactnumber: " Enter Contact
-							No"} }); 
+                nameLabel: " EnterName", 
+                emailLabel: " Enter Email", 
+                phoneLabel: " Enter Contact	No"} }); 
         /*if(validator.form()){ 
 // validation
 							perform 
@@ -99,9 +93,11 @@ $('form#myForm').submit(); } */
 			var
 							user=$(this).serializeObject();
 							$.post("user", [ user ], function(data) {
-				alert("Created
-							user ");
-				window.location.reload(true);
+								$.get("user/" + data[0].email, function(order) {
+									alert("User order "+data[0].email+
+									"\nID = "+order.id);
+									window.location.reload(true);
+									});
 			}, function(data) {
 				var
 							response=data.response; alert("Error: ");

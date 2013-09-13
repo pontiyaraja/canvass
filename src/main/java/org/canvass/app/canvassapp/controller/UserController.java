@@ -1,5 +1,6 @@
 package org.canvass.app.canvassapp.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,9 +42,14 @@ public class UserController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public @ResponseBody String create(@Valid @RequestBody User order) {
+	public @ResponseBody List<? extends Object> addUser(@Valid @RequestBody User order) {
+		List<Map<String,Object>> list =new LinkedList<Map<String, Object>>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		userService.addUser(order);
-		return "Success";
+		map.put("email", order.getEmail());
+		map.put("phone", order.getPhone());
+		list.add(map);
+		return list;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
