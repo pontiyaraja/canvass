@@ -29,7 +29,7 @@
 		<h2>Create User</h2>
 		<div class="span-12 last">
 
-			<form:form id="userform" modelAttribute="user" action="user"
+			<form:form modelAttribute="user" action="user"
 				method="post">
 				<fieldset>
 					<legend>User Fields</legend>
@@ -95,10 +95,10 @@ $('form#myForm').submit(); } */
 	$(document).ready(function() {
 		
 		
-		$("#userform").submit(function() {
+		$("#user").submit(function() {
 			var
 							user=$(this).serializeObject();
-							$.post("user/", [ user ], function(data) {
+							$.post("user", [ user ], function(data) {
 				alert("Created
 							user ");
 				window.location.reload(true);
