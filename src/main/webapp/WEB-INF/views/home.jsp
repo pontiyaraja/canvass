@@ -27,8 +27,7 @@
 
 			<form:form id="userform" modelAttribute="user" action="user" method="post">
 				<fieldset>
-					<legend>Order Fields</legend>
-					<legend>Order Fields</legend>
+					<legend>User Fields</legend>
 					<p>
 						<form:label id="nameLabel" for="name" path="name"
 							cssErrorClass="error">Name</form:label>
@@ -62,8 +61,6 @@
 
 <script type="text/javascript">
     
-​​
-
 	$(document).ready(function() {
 		
 		
